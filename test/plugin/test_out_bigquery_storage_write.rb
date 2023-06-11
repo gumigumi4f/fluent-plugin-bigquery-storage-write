@@ -1,5 +1,5 @@
 require "helper"
-require "fluent/plugin/out_bigquery_storage_write.rb"
+require "fluent/plugin/out_bigquery_insert_storage_write.rb"
 
 class BigqueryStorageWriteOutputTest < Test::Unit::TestCase
   setup do

@@ -5,12 +5,13 @@ require "fluent/plugin/bigquery/storage/helper"
 
 require 'google/protobuf'
 require 'google/protobuf/descriptor_pb'
+require 'google/protobuf/timestamp_pb'
 require "google/cloud/bigquery/storage/v1"
 require 'googleauth'
 
 module Fluent
   module Plugin
-    class BigqueryStorageWriteOutput < Fluent::Plugin::Output
+    class BigqueryInsertStorageWriteOutput < Fluent::Plugin::Output
       Fluent::Plugin.register_output("bigquery_insert_storage_write", self)
 
       helpers :inject
@@ -21,7 +22,6 @@ module Fluent
       config_param :private_key_passphrase, :string, default: 'hoge', secret: true
       config_param :json_key, default: nil, secret: true
 
-      config_param :location, :string, default: nil
       config_param :project, :string
       config_param :dataset, :string
       config_param :table, :string
@@ -69,12 +69,23 @@ module Fluent
       end
 
       def start
+        super
+
         @writer = Fluent::BigQuery::Storage::Writer.new(@log, @auth_method, @project, @dataset, @table, @descriptor_proto,
                                                         private_key_path: @private_key_path, private_key_passphrase: @private_key_passphrase,
                                                         email: @email,
                                                         json_key: @json_key,
-                                                        location: @location,
         )
+      end
+
+      def format(tag, time, record)
+        if record.nil?
+          log.warn("nil record detected. corrupted chunks? tag=#{tag}, time=#{time}")
+          return
+        end
+
+        record = inject_values_to_record(tag, time, record)
+        record.to_json + "\n"
       end
 
       def multi_workers_ready?

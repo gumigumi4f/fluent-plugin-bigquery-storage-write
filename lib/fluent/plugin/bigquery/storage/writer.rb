@@ -48,7 +48,10 @@ module Fluent
               )
             )
           ]
-          client.append_rows(data)
+          a = client.append_rows(data)
+          a.map do |b|
+            @log.debug(b)
+          end
         end
 
         private
