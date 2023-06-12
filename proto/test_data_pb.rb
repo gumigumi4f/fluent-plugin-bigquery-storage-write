@@ -4,10 +4,8 @@
 
 require 'google/protobuf'
 
-require 'google/protobuf/timestamp_pb'
 
-
-descriptor_data = "\n\x0ftest_data.proto\x1a\x1fgoogle/protobuf/timestamp.proto\">\n\x04\x44\x61ta\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\x12(\n\x04time\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestampb\x06proto3"
+descriptor_data = "\n\x0ftest_data.proto\"\xd5\x02\n\x04\x44\x61ta\x12\x11\n\tbool_test\x18\x01 \x01(\x08\x12\x11\n\tdate_test\x18\x02 \x01(\x05\x12\x15\n\rdatetime_test\x18\x03 \x01(\t\x12\x12\n\nfloat_test\x18\x04 \x01(\x01\x12\x16\n\x0egeography_test\x18\x05 \x01(\t\x12\x14\n\x0cinteger_test\x18\x06 \x01(\x03\x12\x11\n\tjson_test\x18\x07 \x01(\t\x12\x14\n\x0cnumeric_test\x18\x08 \x01(\x03\x12\x13\n\x0bstring_test\x18\t \x01(\t\x12\x11\n\ttime_test\x18\n \x01(\t\x12\x16\n\x0etimestamp_test\x18\x0b \x01(\x03\x12\x1b\n\x13repeated_field_test\x18\x0c \x03(\x03\x12!\n\x0brecord_test\x18\r \x01(\x0b\x32\x0c.Data.Record\x1a%\n\x06Record\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\tb\x06proto3"
 
 pool = Google::Protobuf::DescriptorPool.generated_pool
 
@@ -22,7 +20,6 @@ rescue TypeError => e
   file = pool.add_serialized_file(serialized)
   warn "Warning: Protobuf detected an import path issue while loading generated file #{__FILE__}"
   imports = [
-    ["google.protobuf.Timestamp", "google/protobuf/timestamp.proto"],
   ]
   imports.each do |type_name, expected_filename|
     import_file = pool.lookup(type_name).file_descriptor
@@ -35,3 +32,4 @@ rescue TypeError => e
 end
 
 Data = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("Data").msgclass
+Data::Record = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("Data.Record").msgclass

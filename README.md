@@ -8,8 +8,8 @@ TODO: write description for you plugin.
 
 ### RubyGems
 
-```
-$ gem install fluent-plugin-bigquery-storage-write
+```sh
+gem install fluent-plugin-bigquery-storage-write
 ```
 
 ### Bundler
@@ -30,14 +30,15 @@ $ bundle
 
 You have to generate proto code to serialize data.
 
-```
-$ bundle exec grpc_tools_ruby_protoc -I proto --ruby_out=proto --grpc_out=proto proto/test_data.proto
+```sh
+bundle exec grpc_tools_ruby_protoc -I proto --ruby_out=proto proto/test_data.proto
 ```
 
 You can copy and paste generated documents here.
 
 ## Copyright
 
-* Copyright(c) 2023- gumigumi4f
+* Copyright(c) 2023 gumigumi4f
 * License
   * Apache License, Version 2.0
+* This plugin includes some code from [fluent-plugin-bigquery](https://github.com/fluent-plugins-nursery/fluent-plugin-bigquery) for compatibility.

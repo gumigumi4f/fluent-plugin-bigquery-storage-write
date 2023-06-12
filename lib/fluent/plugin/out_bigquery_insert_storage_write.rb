@@ -5,7 +5,6 @@ require "fluent/plugin/bigquery/storage/helper"
 
 require 'google/protobuf'
 require 'google/protobuf/descriptor_pb'
-require 'google/protobuf/timestamp_pb'
 require "google/cloud/bigquery/storage/v1"
 require 'googleauth'
 
