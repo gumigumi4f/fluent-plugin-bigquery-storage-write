@@ -48,16 +48,16 @@ bundle
 
 ### buffer section
 
-| name                        | type    | required? | default                        | description                        |
-|:----------------------------|:--------|:----------|:-------------------------------|:-----------------------------------|
-| @type                       | string  | no        | memory (insert) or file (load) |                                    |
-| chunk_limit_size            | integer | no        | 1MB (insert) or 1GB (load)     |                                    |
-| total_limit_size            | integer | no        | 1GB (insert) or 32GB (load)    |                                    |
-| chunk_records_limit         | integer | no        | 500 (insert) or nil (load)     |                                    |
-| flush_mode                  | enum    | no        | interval                       | default, lazy, interval, immediate |
-| flush_interval              | float   | no        | 1.0 (insert) or 3600 (load)    |                                    |
-| flush_thread_interval       | float   | no        | 0.05 (insert) or 5 (load)      |                                    |
-| flush_thread_burst_interval | float   | no        | 0.05 (insert) or 5 (load)      |                                    |
+| name                        | type    | required? | default  | description                        |
+|:----------------------------|:--------|:----------|:---------|:-----------------------------------|
+| @type                       | string  | no        | memory   |                                    |
+| chunk_limit_size            | integer | no        | 1MB      |                                    |
+| total_limit_size            | integer | no        | 1GB      |                                    |
+| chunk_records_limit         | integer | no        | 500      |                                    |
+| flush_mode                  | enum    | no        | interval | default, lazy, interval, immediate |
+| flush_interval              | float   | no        | 1.0      |                                    |
+| flush_thread_interval       | float   | no        | 0.05     |                                    |
+| flush_thread_burst_interval | float   | no        | 0.05     |                                    |
 
 And, other params (defined by base class) are available
 
