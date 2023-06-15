@@ -20,13 +20,13 @@ Gem::Specification.new do |spec|
   spec.test_files    = test_files
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 2.4.13"
-  spec.add_development_dependency "rake", "~> 13.0.1"
-  spec.add_development_dependency "test-unit", "~> 3.3.4"
-  spec.add_development_dependency "grpc-tools", "~> 1.55"
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "test-unit"
+  spec.add_development_dependency "test-unit-rr"
+  spec.add_development_dependency "grpc-tools", ">= 1.55"
   spec.add_runtime_dependency "fluentd", [">= 0.14.10", "< 2"]
-  spec.add_runtime_dependency "grpc", "~> 1.55"
-  spec.add_runtime_dependency "google-api-client", "~> 0.53.0"
-  spec.add_runtime_dependency "googleauth", ["~> 1.5", ">= 1.5.2"]
-  spec.add_runtime_dependency "google-cloud-bigquery-storage", "~> 1.3"
+  spec.add_runtime_dependency "grpc", ">= 1.55"
+  spec.add_runtime_dependency "googleauth", ">= 1.5.2"
+  spec.add_runtime_dependency "google-cloud-bigquery-storage", ">= 1.3.0"
 end

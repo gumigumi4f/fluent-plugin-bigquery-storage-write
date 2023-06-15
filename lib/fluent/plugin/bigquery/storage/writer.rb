@@ -19,25 +19,10 @@ module Fluent
           end
         end
 
-        def stream
-          unless @stream.nil?
-            @stream
-          end
-
-          request = Google::Cloud::Bigquery::Storage::V1::CreateWriteStreamRequest.new.tap do |rq|
-            rq.parent = "projects/#{@project}/datasets/#{@dataset}/tables/#{@table}"
-            rq.write_stream = Google::Cloud::Bigquery::Storage::V1::WriteStream.new.tap do |ws|
-              ws.type = Google::Cloud::Bigquery::Storage::V1::WriteStream::Type::COMMITTED
-            end
-          end
-
-          @stream = client.create_write_stream(request)
-        end
-
         def insert(rows)
           data = [
             Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest.new(
-              write_stream: stream.name,
+              write_stream: "projects/#{@project}/datasets/#{@dataset}/tables/#{@table}/streams/_default",
               proto_rows: Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest::ProtoData.new(
                 rows: Google::Cloud::Bigquery::Storage::V1::ProtoRows.new(
                   serialized_rows: rows
@@ -55,14 +40,8 @@ module Fluent
 
         private
 
-        def log
-          @log
-        end
-
         def get_auth
           case @auth_method
-          when :private_key
-            get_auth_from_private_key
           when :compute_engine
             get_auth_from_compute_engine
           when :json_key
@@ -72,22 +51,6 @@ module Fluent
           else
             raise ConfigError, "Unknown auth method: #{@auth_method}"
           end
-        end
-
-        def get_auth_from_private_key
-          require 'google/api_client/auth/key_utils'
-          private_key_path = @options[:private_key_path]
-          private_key_passphrase = @options[:private_key_passphrase]
-          email = @options[:email]
-
-          key = Google::APIClient::KeyUtils.load_from_pkcs12(private_key_path, private_key_passphrase)
-          Signet::OAuth2::Client.new(
-            token_credential_uri: "https://accounts.google.com/o/oauth2/token",
-            audience: "https://accounts.google.com/o/oauth2/token",
-            scope: @scope,
-            issuer: email,
-            signing_key: key
-          )
         end
 
         def get_auth_from_compute_engine

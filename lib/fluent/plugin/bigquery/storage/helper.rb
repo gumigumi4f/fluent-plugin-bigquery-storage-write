@@ -15,6 +15,8 @@ module Fluent
                 return eval(data)
               end
             end
+
+            raise "No descriptor data found in file. path=#{file_path}"
           end
         end
       end

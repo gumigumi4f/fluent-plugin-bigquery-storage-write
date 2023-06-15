@@ -22,8 +22,8 @@ gem "fluent-plugin-bigquery-storage-write"
 
 And then execute:
 
-```
-$ bundle
+```sh
+bundle
 ```
 
 ## Configuration
