@@ -67,6 +67,7 @@ see. https://github.com/fluent/fluentd/blob/master/lib/fluent/plugin/output.rb
 
 First, you have to generate Protocol Buffers compiled code to serialize data.
 Write code `.proto` and compile it using `protoc`.
+The sample code with BigQuery schema is located in the path below `proto/test_data.proto`.
 
 ```sh
 bundle exec grpc_tools_ruby_protoc -I proto --ruby_out=proto proto/test_data.proto
@@ -84,7 +85,7 @@ Next, specify generated ruby code path to fluentd configuration file.
   dataset test
   table data
 
-  proto_schema_rb_path /your/generated/code_path/here/test_data_pb.rb
+  proto_schema_rb_path /your/generated/code/path/here/test_data_pb.rb
   proto_message_class_name Data
 </match>
 ```

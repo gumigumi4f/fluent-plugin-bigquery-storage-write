@@ -79,7 +79,6 @@ GEM
     power_assert (1.1.7)
     public_suffix (5.0.1)
     rake (13.0.1)
-    rr (3.1.0)
     ruby2_keywords (0.0.5)
     serverengine (2.3.2)
       sigdump (~> 0.2.2)
@@ -92,9 +91,6 @@ GEM
     strptime (0.2.5)
     test-unit (3.3.4)
       power_assert
-    test-unit-rr (1.0.5)
-      rr (>= 1.1.1)
-      test-unit (>= 2.5.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2023.3)
@@ -111,7 +107,6 @@ DEPENDENCIES
   grpc-tools (>= 1.55)
   rake
   test-unit
-  test-unit-rr
 
 BUNDLED WITH
    2.4.13
