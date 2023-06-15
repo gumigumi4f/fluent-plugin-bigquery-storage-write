@@ -50,6 +50,10 @@ module Fluent
         else
           raise Fluent::ConfigError, "unrecognized 'auth_method': #{@auth_method}"
         end
+      end
+
+      def start
+        super
 
         message_cls_name = @proto_message_class_name
         if message_cls_name.nil?
@@ -65,17 +69,12 @@ module Fluent
           raise "No descripter proto found. class_name=#{message_cls_name}"
         end
         @klass = Google::Protobuf::DescriptorPool.generated_pool.lookup(message_cls_name).msgclass
+
+        @writer = Fluent::BigQuery::Storage::Writer.new(@log, @auth_method, @project, @dataset, @table, @descriptor_proto,
+                                                        json_key: @json_key)
       rescue
         log.error("initialize error")
         raise
-      end
-
-      def start
-        super
-
-        @writer = Fluent::BigQuery::Storage::Writer.new(@log, @auth_method, @project, @dataset, @table, @descriptor_proto,
-                                                        json_key: @json_key,
-        )
       end
 
       def format(tag, time, record)

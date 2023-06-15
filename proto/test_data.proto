@@ -1,24 +1,24 @@
-syntax = "proto3";
+syntax = "proto2";
 
 message Data {
   message Record {
-    string name = 1;
-    string value = 2;
+    optional string name = 1;
+    optional string value = 2;
   }
 
-  bool bool_test = 1;
-  int32 date_test = 2;
-  string datetime_test = 3;
-  double float_test = 4;
-  string geography_test = 5;
-  int64 integer_test = 6;
-  string json_test = 7;
-  int64 numeric_test = 8;
-  string string_test = 9;
-  string time_test = 10;
-  int64 timestamp_test = 11;
+  optional bool bool_test = 1;
+  optional int32 date_test = 2;
+  optional string datetime_test = 3;
+  optional double float_test = 4;
+  optional string geography_test = 5;
+  optional int64 integer_test = 6;
+  optional string json_test = 7;
+  optional int64 numeric_test = 8;
+  optional string string_test = 9;
+  optional string time_test = 10;
+  optional int64 timestamp_test = 11;
   repeated int64 repeated_field_test = 12;
-  Record record_test = 13;
+  optional Record record_test = 13;
 }
 
 // Below is the schema on BigQuery
