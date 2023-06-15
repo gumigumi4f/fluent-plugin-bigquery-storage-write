@@ -1,5 +1,8 @@
 # fluent-plugin-bigquery-storage-write
 
+![Test](https://github.com/gumigumi4f/fluent-plugin-bigquery-storage-write/workflows/Test/badge.svg)
+[![Gem Version](https://badge.fury.io/rb/fluent-plugin-bigquery-storage-write.svg)](http://badge.fury.io/rb/fluent-plugin-bigquery-storage-write)
+
 [Fluentd](https://fluentd.org/) output plugin to insert data into BigQuery through storage write api.
 
 ## Overview
