@@ -39,7 +39,6 @@ bundle
 |:---------------------------|:-------|:---------------|:--------------------|:-------------------------------------------------------------------------------------------------------------|
 | auth_method                | enum   | yes            | application_default | `json_key` or `compute_engine` or `application_default`                                                      |
 | json_key                   | string | yes (json_key) | nil                 | GCP JSON Key file path or JSON Key string                                                                    |
-| location                   | string | yes            | nil                 |                                                                                                              |
 | project                    | string | yes            | nil                 |                                                                                                              |
 | dataset                    | string | yes            | nil                 |                                                                                                              |
 | table                      | string | yes            | nil                 |                                                                                                              |

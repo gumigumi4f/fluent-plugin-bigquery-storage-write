@@ -66,15 +66,15 @@ module Fluent
         parsed = Google::Protobuf::FileDescriptorProto.decode(descriptor_data)
         @descriptor_proto = parsed.message_type.find { |msg| msg.name == message_cls_name }
         if @descriptor_proto.nil?
-          raise "No descripter proto found. class_name=#{message_cls_name}"
+          raise "No descriptor proto found. class_name=#{message_cls_name}"
         end
         @klass = Google::Protobuf::DescriptorPool.generated_pool.lookup(message_cls_name).msgclass
 
         @writer = Fluent::BigQuery::Storage::Writer.new(@log, @auth_method, @project, @dataset, @table, @descriptor_proto,
                                                         json_key: @json_key)
-      rescue
+      rescue => e
         log.error("initialize error")
-        raise
+        raise Fluent::UnrecoverableError, e
       end
 
       def format(tag, time, record)

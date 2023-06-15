@@ -4,13 +4,14 @@ module Fluent
       class Writer
         def initialize(log, auth_method, project, dataset, table, proto_descriptor, **options)
           @auth_method = auth_method
-          @project = project
-          @dataset = dataset
-          @table = table
-          @proto_descriptor = proto_descriptor
           @scope = "https://www.googleapis.com/auth/bigquery"
           @options = options
           @log = log
+
+          @write_stream = "projects/#{project}/datasets/#{dataset}/tables/#{table}/streams/_default"
+          @write_schema = Google::Cloud::Bigquery::Storage::V1::ProtoSchema.new(
+            proto_descriptor: proto_descriptor
+          )
         end
 
         def client
@@ -22,19 +23,17 @@ module Fluent
         def insert(rows)
           data = [
             Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest.new(
-              write_stream: "projects/#{@project}/datasets/#{@dataset}/tables/#{@table}/streams/_default",
+              write_stream: @write_stream,
               proto_rows: Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest::ProtoData.new(
                 rows: Google::Cloud::Bigquery::Storage::V1::ProtoRows.new(
                   serialized_rows: rows
                 ),
-                writer_schema: Google::Cloud::Bigquery::Storage::V1::ProtoSchema.new(
-                  proto_descriptor: @proto_descriptor
-                )
+                writer_schema: @write_schema
               )
             )
           ]
           client.append_rows(data).map do |e|
-            @log.debug(e)
+            @log.trace(e)
           end
         end
 
