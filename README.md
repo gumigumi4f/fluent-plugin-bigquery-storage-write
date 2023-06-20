@@ -100,8 +100,8 @@ Next, specify generated ruby code path to fluentd configuration file.
 - Where is the type conversions docs between Protocol Buffers and BigQuery?
   - See https://cloud.google.com/bigquery/docs/write-api#data_type_conversions
   - Note that some types, including `google.protobuf.Timestamp`, are not available due to [BigQuery limitation](https://github.com/googleapis/python-bigquery-storage/issues/257).
-- Which protoc version do we need for compilation?
-  - [Protocol Buffers v23.0](https://github.com/protocolbuffers/protobuf/releases/tag/v23.0) is minimum version because it's generate a serialized proto instead of the DSL.
+- Which protoc version do I need for compilation?
+  - [Protocol Buffers v23.0](https://github.com/protocolbuffers/protobuf/releases/tag/v23.0) is minimum version because it generates a serialized proto instead of the DSL.
 - Is there any limitation on the Storage Write API?
   - See https://cloud.google.com/bigquery/quotas?hl=ja#write-api-limits
   - Especially, note that the maximum value of chunk_limit_size is limited to 10 MB.
