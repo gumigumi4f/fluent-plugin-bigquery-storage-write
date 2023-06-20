@@ -41,6 +41,21 @@ class BigQueryStorageWriteInsertOutputTest < Test::Unit::TestCase
       assert_equal('/path/to/schema_rb', d.instance.proto_schema_rb_path)
       assert_equal('Test', d.instance.proto_message_class_name)
     end
+
+    test '"json_key" must be specified when auth_method set to "json_key"' do
+      assert_raises Fluent::ConfigError do
+        create_driver(%[
+          auth_method json_key
+
+          project sample-project
+          dataset test
+          table data
+
+          proto_schema_rb_path /path/to/schema_rb
+          proto_message_class_name Test
+        ])
+      end
+    end
   end
 
   private
