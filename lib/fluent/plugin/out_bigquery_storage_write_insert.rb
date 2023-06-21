@@ -14,12 +14,17 @@ module Fluent
 
       helpers :inject
 
-      config_param :auth_method, :enum, list: [:compute_engine, :json_key, :application_default], default: :application_default
+      config_param :auth_method, :enum, list: [:private_key, :compute_engine, :json_key, :application_default], default: :application_default
+      config_param :email, :string, default: nil
+      config_param :private_key_path, :string, default: nil
+      config_param :private_key_passphrase, :string, default: 'notasecret', secret: true
       config_param :json_key, default: nil, secret: true
 
       config_param :project, :string
       config_param :dataset, :string
       config_param :table, :string
+
+      config_param :ignore_unknown_fields, :bool, default: true
 
       config_param :proto_schema_rb_path, :string
       config_param :proto_message_class_name, :string, default: nil
@@ -39,6 +44,10 @@ module Fluent
         super
 
         case @auth_method
+        when :private_key
+          unless @email && @private_key_path
+            raise Fluent::ConfigError, "'email' and 'private_key_path' must be specified if auth_method == 'private_key'"
+          end
         when :compute_engine
           # Do nothing
         when :json_key
@@ -71,6 +80,9 @@ module Fluent
         @klass = Google::Protobuf::DescriptorPool.generated_pool.lookup(message_cls_name).msgclass
 
         @writer = Fluent::BigQuery::Storage::Writer.new(@log, @auth_method, @project, @dataset, @table, @descriptor_proto,
+                                                        private_key_path: @private_key_path,
+                                                        private_key_passphrase: @private_key_passphrase,
+                                                        email: @email,
                                                         json_key: @json_key)
       rescue => e
         log.error("initialize error")
@@ -93,7 +105,7 @@ module Fluent
       def write(chunk)
         rows = chunk.open do |io|
           io.map do |line|
-            val = @klass.decode_json(line, ignore_unknown_fields: true)
+            val = @klass.decode_json(line, ignore_unknown_fields: @ignore_unknown_fields)
             @klass.encode(val)
           end
         end

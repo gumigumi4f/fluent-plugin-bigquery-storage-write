@@ -38,15 +38,16 @@ bundle
 
 ### bigquery_storage_write_insert
 
-| name                       | type   | required?      | default             | description                                                                                                  |
-|:---------------------------|:-------|:---------------|:--------------------|:-------------------------------------------------------------------------------------------------------------|
-| auth_method                | enum   | yes            | application_default | `json_key` or `compute_engine` or `application_default`                                                      |
-| json_key                   | string | yes (json_key) | nil                 | GCP JSON Key file path or JSON Key string                                                                    |
-| project                    | string | yes            | nil                 |                                                                                                              |
-| dataset                    | string | yes            | nil                 |                                                                                                              |
-| table                      | string | yes            | nil                 |                                                                                                              |
-| proto_schema_rb_path       | string | yes            | nil                 | Generated Protocol Buffers schema .rb file path.                                                             |
-| proto_message_class_name   | string | no             | nil                 | Class name of Protocol Buffers message. If not specified, table value that converted to pascal case is used. |
+| name                     | type   | required?      | default             | description                                                                                                  |
+|:-------------------------|:-------|:---------------|:--------------------|:-------------------------------------------------------------------------------------------------------------|
+| auth_method              | enum   | yes            | application_default | `json_key` or `compute_engine` or `application_default`                                                      |
+| json_key                 | string | yes (json_key) | nil                 | GCP JSON Key file path or JSON Key string                                                                    |
+| project                  | string | yes            | nil                 |                                                                                                              |
+| dataset                  | string | yes            | nil                 |                                                                                                              |
+| table                    | string | yes            | nil                 |                                                                                                              |
+| ignore_unknown_fields    | bool   | no             | true                | If False, raise errors for unknown fields.                                                                   |
+| proto_schema_rb_path     | string | yes            | nil                 | Generated Protocol Buffers schema .rb file path.                                                             |
+| proto_message_class_name | string | no             | nil                 | Class name of Protocol Buffers message. If not specified, table value that converted to pascal case is used. |
 
 ### buffer section
 
@@ -72,7 +73,7 @@ Write code `.proto` and compile it using `protoc`.
 The sample code with BigQuery schema is located in the path below `proto/test_data.proto`.
 
 ```sh
-bundle exec grpc_tools_ruby_protoc -I proto --ruby_out=proto proto/test_data.proto
+protoc -I proto --ruby_out=proto proto/test_data.proto
 ```
 
 Next, specify generated ruby code path to fluentd configuration file.

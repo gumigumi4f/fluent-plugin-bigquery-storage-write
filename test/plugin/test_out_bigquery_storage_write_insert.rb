@@ -56,6 +56,36 @@ class BigQueryStorageWriteInsertOutputTest < Test::Unit::TestCase
         ])
       end
     end
+
+    test '"email" and "private_key_path" must be specified when auth_method set to "private_key"' do
+      assert_raises Fluent::ConfigError do
+        create_driver(%[
+          auth_method private_key
+          private_key_path /path/to/key
+
+          project sample-project
+          dataset test
+          table data
+
+          proto_schema_rb_path /path/to/schema_rb
+          proto_message_class_name Test
+        ])
+      end
+
+      assert_raises Fluent::ConfigError do
+        create_driver(%[
+          auth_method private_key
+          email hoge@hoge.com
+
+          project sample-project
+          dataset test
+          table data
+
+          proto_schema_rb_path /path/to/schema_rb
+          proto_message_class_name Test
+        ])
+      end
+    end
   end
 
   private

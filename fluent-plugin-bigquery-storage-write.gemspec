@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name    = "fluent-plugin-bigquery-storage-write"
-  spec.version = "0.1.0"
+  spec.version = "0.2.0"
   spec.authors = ["gumigumi4f"]
   spec.email   = ["gumigumi4f@gmail.com"]
 
@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "grpc", ">= 1.55"
   spec.add_runtime_dependency "googleauth", ">= 1.5.2"
   spec.add_runtime_dependency "google-cloud-bigquery-storage", ">= 1.3.0"
+  spec.add_runtime_dependency "google-api-client", ">= 0.53.0"
 end
