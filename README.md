@@ -38,16 +38,19 @@ bundle
 
 ### bigquery_storage_write_insert
 
-| name                     | type   | required?      | default             | description                                                                                                  |
-|:-------------------------|:-------|:---------------|:--------------------|:-------------------------------------------------------------------------------------------------------------|
-| auth_method              | enum   | yes            | application_default | `json_key` or `compute_engine` or `application_default`                                                      |
-| json_key                 | string | yes (json_key) | nil                 | GCP JSON Key file path or JSON Key string                                                                    |
-| project                  | string | yes            | nil                 |                                                                                                              |
-| dataset                  | string | yes            | nil                 |                                                                                                              |
-| table                    | string | yes            | nil                 |                                                                                                              |
-| ignore_unknown_fields    | bool   | no             | true                | If False, raise errors for unknown fields.                                                                   |
-| proto_schema_rb_path     | string | yes            | nil                 | Generated Protocol Buffers schema .rb file path.                                                             |
-| proto_message_class_name | string | no             | nil                 | Class name of Protocol Buffers message. If not specified, table value that converted to pascal case is used. |
+| name                     | type   | required?         | default             | description                                                                                                  |
+|:-------------------------|:-------|:------------------|:--------------------|:-------------------------------------------------------------------------------------------------------------|
+| auth_method              | enum   | yes               | application_default | `private_key` or `json_key` or `compute_engine` or `application_default`                                     |
+| email                    | string | yes (private_key) | nil                 | GCP Service Account Email                                                                                    |
+| private_key_path         | string | yes (private_key) | nil                 | GCP Private Key file path                                                                                    |
+| private_key_passphrase   | string | yes (private_key) | nil                 | GCP Private Key Passphrase                                                                                   |
+| json_key                 | string | yes (json_key)    | nil                 | GCP JSON Key file path or JSON Key string                                                                    |
+| project                  | string | yes               | nil                 |                                                                                                              |
+| dataset                  | string | yes               | nil                 |                                                                                                              |
+| table                    | string | yes               | nil                 |                                                                                                              |
+| ignore_unknown_fields    | bool   | no                | true                | If False, raise errors for unknown fields.                                                                   |
+| proto_schema_rb_path     | string | yes               | nil                 | Generated Protocol Buffers schema .rb file path.                                                             |
+| proto_message_class_name | string | no                | nil                 | Class name of Protocol Buffers message. If not specified, table value that converted to pascal case is used. |
 
 ### buffer section
 
