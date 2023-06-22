@@ -15,8 +15,8 @@ module Fluent
         end
 
         def client
-          @client ||= Google::Cloud::Bigquery::Storage::V1::BigQueryWrite::Client.new.tap do |cl|
-            cl.configure.credentials = get_auth
+          @client ||= Google::Cloud::Bigquery::Storage::V1::BigQueryWrite::Client.new do |cf|
+            cf.credentials = get_auth
           end
         end
 
