@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fluent-plugin-bigquery-storage-write (0.2.1)
+    fluent-plugin-bigquery-storage-write (0.2.2)
       fluentd (>= 0.14.10, < 2)
       google-api-client (>= 0.53.0)
       google-cloud-bigquery-storage (>= 1.3.0)
