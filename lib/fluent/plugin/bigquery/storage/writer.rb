@@ -8,9 +8,14 @@ module Fluent
           @options = options
           @log = log
 
-          @write_stream = "projects/#{project}/datasets/#{dataset}/tables/#{table}/streams/_default"
-          @write_schema = Google::Cloud::Bigquery::Storage::V1::ProtoSchema.new(
-            proto_descriptor: proto_descriptor
+          @base_append_rows_request = Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest.new(
+            write_stream: "projects/#{project}/datasets/#{dataset}/tables/#{table}/streams/_default",
+            proto_rows: Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest::ProtoData.new(
+              rows: Google::Cloud::Bigquery::Storage::V1::ProtoRows.new,
+              writer_schema: Google::Cloud::Bigquery::Storage::V1::ProtoSchema.new(
+                proto_descriptor: proto_descriptor
+              )
+            )
           )
         end
 
@@ -21,18 +26,9 @@ module Fluent
         end
 
         def insert(rows)
-          data = [
-            Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest.new(
-              write_stream: @write_stream,
-              proto_rows: Google::Cloud::Bigquery::Storage::V1::AppendRowsRequest::ProtoData.new(
-                rows: Google::Cloud::Bigquery::Storage::V1::ProtoRows.new(
-                  serialized_rows: rows
-                ),
-                writer_schema: @write_schema
-              )
-            )
-          ]
-          client.append_rows(data).each do |e|
+          data = Google::Protobuf.deep_copy(@base_append_rows_request)
+          data.proto_rows.rows.serialized_rows += rows
+          client.append_rows([data]).each do |e|
             @log.trace(e)
           end
         end
