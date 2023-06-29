@@ -32,7 +32,7 @@ module Fluent
               )
             )
           ]
-          client.append_rows(data).map do |e|
+          client.append_rows(data).each do |e|
             @log.trace(e)
           end
         end

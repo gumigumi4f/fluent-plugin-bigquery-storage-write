@@ -85,8 +85,7 @@ module Fluent
                                                         email: @email,
                                                         json_key: @json_key)
       rescue => e
-        log.error("initialize error")
-        raise Fluent::UnrecoverableError, e
+        raise Fluent::UnrecoverableError.new(e)
       end
 
       def format(tag, time, record)
@@ -111,6 +110,8 @@ module Fluent
         end
 
         @writer.insert(rows)
+      rescue Google::Protobuf::ParseError => e
+        raise Fluent::UnrecoverableError.new(e)
       end
 
       def multi_workers_ready?
