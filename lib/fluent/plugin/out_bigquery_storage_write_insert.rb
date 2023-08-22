@@ -71,11 +71,16 @@ module Fluent
 
         descriptor_data = Fluent::BigQuery::Storage::Helper.get_descriptor_data(@proto_schema_rb_path)
 
-        Google::Protobuf::DescriptorPool.generated_pool.add_serialized_file(descriptor_data)
         parsed = Google::Protobuf::FileDescriptorProto.decode(descriptor_data)
         @descriptor_proto = parsed.message_type.find { |msg| msg.name == message_cls_name }
         if @descriptor_proto.nil?
           raise "No descriptor proto found. class_name=#{message_cls_name}"
+        end
+
+        begin
+          Google::Protobuf::DescriptorPool.generated_pool.add_serialized_file(descriptor_data)
+        rescue Google::Protobuf::TypeError => e
+          log.warn("unable to build file to DescriptorPool. duplicate proto file? you have to restart fluentd process to reload proto.")
         end
         @klass = Google::Protobuf::DescriptorPool.generated_pool.lookup(message_cls_name).msgclass
 
